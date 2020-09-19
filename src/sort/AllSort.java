@@ -12,10 +12,16 @@ public class AllSort {
             len--;
         }
         System.out.println(Arrays.toString(arr));
-        long t = System.currentTimeMillis();
-//        selectionSort(arr,arr.length);
+//        long t = System.currentTimeMillis();
+////        selectionSort(arr,arr.length);
+//        quickSort(arr,0,arr.length-1);
+//        System.out.println("time = "+ (System.currentTimeMillis()-t));
+//        System.out.println(Arrays.toString(arr));
+
+        int k = 7;
+        int kth = findKth(arr, 0, arr.length-1, k);
+        System.out.println("第"+k+"大得值= "+ kth);
         quickSort(arr,0,arr.length-1);
-        System.out.println("time = "+ (System.currentTimeMillis()-t));
         System.out.println(Arrays.toString(arr));
     }
 
@@ -131,7 +137,7 @@ public class AllSort {
     /**
      *  快速排序
      *
-     *  从数组中选取一个值作为基准值，然后将数组排序，等到一个下表 i ，使得下标i左侧的值 都小于基准值，右侧的值都大于基准值
+     *  从数组中选取一个值作为基准值，然后将数组排序，得到一个下标 i ，使得下标i左侧的值 都小于基准值，右侧的值都大于基准值
      *  然后在 i 左侧 和 右侧的数组 重复执行该操作
       * @param a
      * @param p
@@ -148,13 +154,14 @@ public class AllSort {
 
     /**
      *  取数组末尾的值为基准值
-     *  i 初始为最左侧的值，遍历数据，找到第一个小于基准值的数据，与i的值进行交换，i++，知道数组末尾
+     *  i 初始为最左侧的值，遍历数据，找到第一个小于基准值的数据，与i的值进行交换，i++，直到数组末尾
      *  此时 i 的值必大于基准值，将i的值与基准值交换
-     *  则 i 左侧都小于基准值， i 右侧 都大于基准值
+     *  则 i 左侧都 < 基准值， i 右侧 都 >= 基准值
      * @param a
      * @param p
      * @param r
      * @return
+     *
      */
     private static int partition(int[] a, int p, int r) {
         int pivot = a[r];
@@ -176,4 +183,26 @@ public class AllSort {
         return i;
     }
 
+
+    /**
+     * 求第K大d的元素
+     *
+     * 我们选择数组区间 A[0…n-1]的最后一个元素 A[n-1]作为 pivot，
+     * 对数组 A[0…n-1]原地分区，这样数组就分成了三部分，A[0…p-1]、A[p]、A[p+1…n-1]。
+     * 如果 p+1=K，那 A[p]就是要求解的元素；
+     * 如果 K>p+1, 说明第 K 大元素出现在 A[p+1…n-1]区间，我们再按照上面的思路递归地在 A[p+1…n-1]这个区间内查找。
+     * 同理，如果 K<p+1，那我们就在 A[0…p-1]区间查找。
+     *
+     */
+    public static int findKth(int[] a,int l,int r,int k) {
+        int partition = partition(a, l, r);
+        if (partition == k -1) {
+            return a[partition];
+        }
+        if (partition > k-1){
+            return findKth(a,l,partition-1,k);
+        } else {
+            return findKth(a,partition+1,r,k);
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package sort;
 
+import java.util.Arrays;
+
 /**
  *  归并排序
  */
@@ -13,8 +15,10 @@ public class MergeSort {
             len--;
         }
 //        int[] arr = {2,10,8,22,5,34,12,28,21,11};
+        int[] arr2 = {81, 87, 47, 59, 81, 18, 25};
         long t = System.currentTimeMillis();
-        merge_sort(arr);
+        merge_sort(arr2);
+        System.out.println(Arrays.toString(arr2));
         System.out.println(System.currentTimeMillis()-t);
     }
 
@@ -29,16 +33,16 @@ public class MergeSort {
         if (start >= end)
             return;
         int mid = (start + end) / 2;
-        int start1 = start, end1 = mid;
-        int start2 = mid + 1, end2 = end;
-        merge_sort_recursive(arr, result, start1, end1);
-        merge_sort_recursive(arr, result, start2, end2);
+        int start1 = start;
+        int start2 = mid + 1;
+        merge_sort_recursive(arr, result, start1, mid);
+        merge_sort_recursive(arr, result, start2, end);
         int k = start;
-        while (start1 <= end1 && start2 <= end2)
+        while (start1 <= mid && start2 <= end)
             result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
-        while (start1 <= end1)
+        while (start1 <= mid)
             result[k++] = arr[start1++];
-        while (start2 <= end2)
+        while (start2 <= end)
             result[k++] = arr[start2++];
         for (k = start; k <= end; k++)
             arr[k] = result[k];
