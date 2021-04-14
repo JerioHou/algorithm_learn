@@ -139,9 +139,9 @@ public class AllSort {
      *
      *  从数组中选取一个值作为基准值，然后将数组排序，得到一个下标 i ，使得下标i左侧的值 都小于基准值，右侧的值都大于基准值
      *  然后在 i 左侧 和 右侧的数组 重复执行该操作
-      * @param a
-     * @param p
-     * @param r
+      * @param a 数组
+     * @param p 分割点
+     * @param r 右侧终点
      */
     public static void quickSort(int[] a, int p, int r) {
         if (p >= r) {
@@ -164,28 +164,36 @@ public class AllSort {
      *
      */
     private static int partition(int[] a, int p, int r) {
+        // 基准值
         int pivot = a[r];
+        // i 记录的时比基准值大的坐标
         int i = p;
         for (int j = p; j < r; j++) {
-            if (a[j] < pivot) {
-                if (i == j) {
-                    i++;
-                } else {
-                    int tmp = a[i];
-                    a[i++] = a[j];
-                    a[j] = tmp;
-                }
+            if (a[j] <= pivot) {
+                // 如果a[j]值小于等于基准值，就将两个下表的值交换
+                // 则此时a[i]的值 小于基准值，i 右侧的值都大于等于基准值
+                // i++后，i指向的值必大于基准值
+                swap(a,i,j);
+                i++;
             }
         }
-        int tmp = a[i];
-        a[i] = pivot;
-        a[r] = tmp;
+        // 此时a[i]的值必大于基准值，交换后，i左侧的值比小于基准值
+        // i 就是分割点
+        swap(a,i,r);
         return i;
     }
 
+    private static void swap(int[] arr, int i, int j) {
+        if (i == j) {
+            return;
+        }
 
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
     /**
-     * 求第K大d的元素
+     * 求第K大的元素
      *
      * 我们选择数组区间 A[0…n-1]的最后一个元素 A[n-1]作为 pivot，
      * 对数组 A[0…n-1]原地分区，这样数组就分成了三部分，A[0…p-1]、A[p]、A[p+1…n-1]。
@@ -225,6 +233,15 @@ public class AllSort {
      *
      * 思路：
      *
+     */
+
+
+    /**
+     * 计数排序
+     * 例如：从100万考生中获取某一个成绩的排名
+     * 方法：假设总分为100分，创建一个长度101的数组，默认为0
+     * 下标对应分数，值为该分数的人数
+     * 遍历数组，将对应分数下表的值加1
      */
 
 }
